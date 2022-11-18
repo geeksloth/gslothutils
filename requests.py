@@ -40,19 +40,14 @@ def get(url=None, headers=None, verify=False, retry=1, retry_delay=0.25, fake=Fa
 
 def post(url=None, headers=None, verify=False, retry=1, retry_delay=0.25, fake=False):
 	if fake:
-		class FakeResponse:
-			def __init__(self, text, status_code, data):
-				self.text=text
-				self.status_code=status_code
-				self.data=data
-			def json(self):
-				return {"text":self.text,"status_code":self.status_code, "data":self.data}
-		response=FakeResponse(text="OK", status_code=200, data={"timestamp":timetime()})
+		response=FakeResponse(text="Fake-OK", status_code=200, data={"timestamp":time.time()})
 		return response
-	if verify:
+	try:
 		response = requests.post(url, headers=headers, verify=verify)
-	else:
-		response = requests.post(url, headers=headers, verify=False)
+	except requests.exceptions.RequestException as e:
+		log.critical(e)
+		response=FakeResponse(text="FAIL", status_code=400, data={"timestamp":time.time()})
+
 	if response.status_code == 200:
 		result = os.path.basename(__file__) + " post successful"
 		log.debug(result)  
