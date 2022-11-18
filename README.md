@@ -23,13 +23,13 @@ cd gslothutils
 ```bash
 git pull origin main
 ```
+If you have made some changes and want to ignore all changes in submodules, reset it by
+```bash
+git reset--hard && git pull origin main
+```
 
 - In case you want to update all your submodules
 ```bash
 git submodule foreach git pull origin main
 ```
 
-- In case you want to ignore all changes in submodules, reset it by
-```bash
-git reset--hard && git pull origin main
-```
