@@ -12,12 +12,12 @@ class FakeResponse:
 	def json(self):
 		return {"text":self.text,"status_code":self.status_code, "data":self.data}
 
-def get(url=None, headers=None, verify=False, retry=1, retry_delay=0.25, fake=False):
+def get(url=None, files=None, auth=None, headers=None, verify=False, retry=1, retry_delay=0.25, fake=False, timeout=None):
 	if fake:
 		response=FakeResponse(text="Fake-OK", status_code=200, data={"timestamp":time.time()})
 		return response
 	try:
-		response = requests.get(url, headers=headers, verify=verify)
+		response = requests.get(url, files=files, auth=auth, headers=headers, verify=verify, timeout=timeout)
 	except requests.exceptions.RequestException as e:
 		log.critical(e)
 		response=FakeResponse(text="FAIL", status_code=400, data={"timestamp":time.time()})
@@ -28,7 +28,7 @@ def get(url=None, headers=None, verify=False, retry=1, retry_delay=0.25, fake=Fa
 	else:
 		if retry > 1:
 			time.sleep(retry_delay)
-			response = get(url=url, headers=headers, retry=retry-1, verify=verify)
+			response = get(url, files=files, auth=auth, headers=headers, verify=verify, timeout=timeout, retry=retry-1)
 			if response.status_code == 200:
 				result = os.path.basename(__file__) + " re-get successful"
 				log.debug(result)
@@ -38,12 +38,12 @@ def get(url=None, headers=None, verify=False, retry=1, retry_delay=0.25, fake=Fa
 	return response
 
 
-def post(url=None, headers=None, verify=False, retry=1, retry_delay=0.25, fake=False):
+def post(url=None, files=None, auth=None, headers=None, verify=False, retry=1, retry_delay=0.25, fake=False, timeout=None):
 	if fake:
 		response=FakeResponse(text="Fake-OK", status_code=200, data={"timestamp":time.time()})
 		return response
 	try:
-		response = requests.post(url, headers=headers, verify=verify)
+		response = requests.post(url, files=files, auth=auth, headers=headers, verify=verify, timeout=timeout)
 	except requests.exceptions.RequestException as e:
 		log.critical(e)
 		response=FakeResponse(text="FAIL", status_code=400, data={"timestamp":time.time()})
@@ -54,7 +54,7 @@ def post(url=None, headers=None, verify=False, retry=1, retry_delay=0.25, fake=F
 	else:
 		if retry > 1:
 			time.sleep(retry_delay)
-			response = post(url=url, headers=headers, retry=retry-1, verify=verify)
+			response = post(url, files=files, auth=auth, headers=headers, verify=verify, timeout=timeout, retry=retry-1)
 			if response.status_code == 200:
 				result = os.path.basename(__file__) + " re-post successful"
 				log.debug(result)
