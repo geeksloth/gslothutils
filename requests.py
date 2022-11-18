@@ -1,7 +1,7 @@
 import requests
 from time import time as now
 import logging as log
-from .log import log
+from log import log
 
 def get(url=None, headers=None, verify=False, retry=1, retry_delay=0.25, fake=False):
 	if fake:

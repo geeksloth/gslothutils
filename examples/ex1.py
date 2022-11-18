@@ -1,7 +1,9 @@
-from slothutils.pprint import pprint
-from slothutils.get_mac import get_mac
-from slothutils.requests import get, post
-from slothutils.nested_dict import nested_dict
+import sys
+sys.path.insert(0,'..')
+from pprint import pprint
+from get_mac import get_mac
+from requests import get, post
+from nested_dict import nested_dict
 
 
 myList = {
@@ -37,3 +39,5 @@ board[1][5] = "pawn"
 board[1][6] = "pawn"
 board[1][7] = "pawn"
 pprint(board)
+
+print(f"### end of {__file__} ###")
