@@ -1,7 +1,7 @@
-from sloth_utils.pprint import pprint
-from sloth_utils.get_mac import get_mac
-from sloth_utils.requests import get, post
-from sloth_utils.nested_dict import nested_dict
+from slothutils.pprint import pprint
+from slothutils.get_mac import get_mac
+from slothutils.requests import get, post
+from slothutils.nested_dict import nested_dict
 
 
 myList = {
