@@ -1,4 +1,4 @@
-from dict_pretty import dict_pretty
+import json
 
 def pprint(msg):
-	print(dict_pretty(msg))
+	print(json.dumps(msg, indent=4, sort_keys=False))
